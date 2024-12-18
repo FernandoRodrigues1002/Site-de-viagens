@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotéis da Viagem</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <div class="back-index">
+
+    <nav class="navbar nav-index">
+      <div class="container-fluid containerNav-index">
+        <a class="navbar-brand mb-0 h1" style="color: #fff" href="index.html">Porto Inseguro</a>
+        <button id="logout-button" class="btn btn-dark">Login</button>
+      </div>
+    </nav>
+
+    <div class="container container-index">
+      <div class="hoteis">
+        <div class="title-index">
+          <h1>Hotéis Disponíveis</h1>
+        </div>
+
+        <div class="info-hoteis">
+          <div id="viagem-info"></div>
+        </div>
+        
+        <!-- Input de quantidade de pessoas -->
+        <div class="input-pessoas">
+          <label for="qtdPessoas">Quantidade de pessoas:</label>
+          <input type="number" id="qtdPessoas" min="1" placeholder="Quantidade de pessoas" class="form-control" />
+        </div>
+
+        <div class="info-passagens">
+          <div id="hoteis-container"></div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Contato</h4>
+          <p>Telefone: <a href="#">4002-0922</a></p>
+          <p>E-mail: <a href="#">eportoinseguro@gmail.com</a></p>
+          <p>Endereço: Rua Pindaiba de Marejão, 123 - São Paulo, SP</p>
+        </div>
+        <div class="footer-section">
+          <h4>Siga-nos</h4>
+          <div class="social-icons">
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Twitter</a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Atendimento ao Cliente</h4>
+          <ul>
+            <li><a href="#">Perguntas Frequentes (FAQ)</a></li>
+            <li><a href="#">Termos e Condições</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Seu Negócio. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+    
+  </div>
+  <script src="../main.js"></script>
+  <script>
+    function getViagemIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("viagemId");
+    }
+    
+    async function carregarViagemComHoteis() {
+      const viagemId = getViagemIdFromURL();
+      try {
+        const response = await fetch(`http://localhost:3000/viagem/${viagemId}`);
+        if (!response.ok) {
+          throw new Error("Erro ao obter os detalhes da viagem");
+        }
+        const viagem = await response.json();
+        exibirInformacoesDaViagem(viagem);
+        exibirHoteis(viagem.hoteis, viagem.valorViagem, viagem.qtdDias);
+      } catch (error) {
+        console.error("Erro", error);
+        alert("Erro ao carregar as informações da viagem.");
+      }
+    }
+    
+    
+    function exibirInformacoesDaViagem(viagem) {
+      const container = document.getElementById("viagem-info");
+      container.innerHTML = `
+      <h2> Destino: ${viagem.local}</h2>
+      <p>Quantidade de dias: ${viagem.qtdDias}</p>
+      <p>Valor: R$ ${viagem.valorViagem}</p>
+      `;
+    }
+    
+    function exibirHoteis(hoteis, valorViagem, qtdDias) {
+      const container = document.getElementById("hoteis-container");
+      container.innerHTML = ""; // Limpar o conteúdo anterior
+      
+      // Criação da tabela
+      const tabela = document.createElement("table");
+      tabela.className = "table table-striped table-bordered";
+      
+      // Criando apenas o corpo da tabela (sem cabeçalho)
+      tabela.innerHTML = `<tbody></tbody>`;
+      const tbody = tabela.querySelector("tbody");
+      
+      hoteis.forEach((hotel) => {
+        const hotelRow = document.createElement("tr");
+        
+        hotelRow.innerHTML = `
+        <td>
+          <img src="${hotel.imagemHotel}" alt="${hotel.nomeHotel}" class="imagem-hotel" 
+          style="width: 200px; height: 100px; object-fit: cover;">
+          </td>
+          <td>${hotel.nomeHotel}</td>
+          <td>${hotel.avaliacaoHotel}</td>
+          <td>${hotel.descricaoHotel}</td>
+          <td>R$ ${hotel.valorHotel} / Diária</td>
+          <td>
+            <button class="btn btn-dark" onclick="calcularValorTotal(${hotel.valorHotel}, ${valorViagem}, ${qtdDias}, ${hotel.id})">Calcular Total</button>
+          </td>
+          <td>
+            <button class="btn btn-dark btn-compra" onclick="verificacaoLogin()">Finalizar Compra</button>
+          </td>
+        `;
+
+        tbody.appendChild(hotelRow);
+      });
+
+      container.appendChild(tabela);
+
+      const containerIndex = document.querySelector('.container-index');
+      const rowCount = tbody.querySelectorAll('tr').length;
+
+      if (rowCount < 5) {
+        containerIndex.style.height = '100vh';
+      } else {
+        containerIndex.style.height = '100%';
+      }
+    }
+
+    function calcularValorTotal(valorHotel, valorViagem, qtdDias, hotelId) {
+      const qtdPessoasInput = document.getElementById("qtdPessoas");
+      const qtdPessoas = parseInt(qtdPessoasInput.value);
+
+      if (isNaN(qtdPessoas) || qtdPessoas <= 0) {
+        alert("Por favor, insira uma quantidade válida de pessoas.");
+        return;
+      }
+
+      const valorTotal = (qtdPessoas * valorViagem) + (valorHotel * qtdDias);
+      alert(`O valor total para o hotel ${hotelId} é: R$ ${valorTotal.toFixed(2)}`);
+    }
+
+    carregarViagemComHoteis();
+
+    function ajustarAlturaContainer(hoteis) {
+      const containerIndex = document.querySelector('.container-index');
+      
+      if (hoteis.length < 5) {
+        containerIndex.style.minHeight = '100vh';
+      } else {
+        containerIndex.style.minHeight = '100%';
+        containerIndex.style.height = 'auto';
+      }
+    }
+  </script>
+</body>
+
+</html>

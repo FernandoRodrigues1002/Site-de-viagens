@@ -1,0 +1,200 @@
+body{
+  background-color: #111;
+  height: 100%;
+}
+
+.img-index{
+  height: 350px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.carrossel-index{
+  width: 100%;
+}
+
+.carrossel-home{
+  width: 100%;
+  align-items: center;
+  justify-content: center ;
+}
+
+.containerNav-index a{
+  padding-left: 280px;
+}
+
+.containerNav-index button{
+  margin-right: 280px;
+}
+
+.nav-index{
+  background-color: #343a40;
+  padding: 10px;
+}
+
+.back-index{
+  background-color: #111;
+  height: 100%;
+}
+
+.container-index {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.hoteis {
+  padding-left: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+
+.btn-index a{
+  text-decoration: none;
+  color: white;
+}
+
+.title-index{
+  display: flex;
+  color: #fff;
+  padding-bottom: 15px;
+  justify-content: center;
+}
+
+.img-card-index{
+  height: 180px;
+}
+
+.card-index{
+  width: 380px;
+}
+
+.card-btn-index{
+  display: flex;
+  justify-content: center;
+}
+
+.footer {
+  background-color: #282828;
+  color: #fff;
+  padding-top: 20px;
+  padding-bottom: 1px;
+  font-family: Arial, sans-serif;
+  margin-top: 15px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 20px;
+}
+
+.footer-section h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #f4a261;
+}
+
+.footer-section p,
+.footer-section ul,
+.footer-section a {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  color: #f4a261;
+}
+
+.social-icons a {
+  margin-right: 10px;
+  color: #ddd;
+  font-size: 16px;
+}
+
+.social-icons a:hover {
+  color: #f4a261;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.table {
+  margin-top: 20px;
+  width: 100%;
+  border: 2px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.table tr td{
+  background-color: #333;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+}
+
+.table th, .table td {
+  border: none;
+  color: #fff;
+}
+
+.table-dark th {
+  background-color: #343a40;
+  color: white;
+  padding: 10px;
+}
+
+.table td {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.imagem-hotel {
+  border-radius: 5px;
+  object-fit: cover;
+  width: 200px;
+  height: 100px;
+}
+
+.btn-dark {
+  margin: 5px;
+}
+
+.info-hoteis{
+  color: #fff;
+}
+
+.info-hoteis p{
+  color: #fff;
+  padding-bottom: 0px;
+}
+
+.btn-compra:hover{
+  background-color: greenyellow;
+}
